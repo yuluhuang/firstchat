@@ -7,5 +7,9 @@
     "stylus": "0.22.5",
     "jade": "1.1.5",
     "socket.io": "0.9.16"
+  },
+  "devDependencies": {
+    "mongodb": "~1.4.12",
+    "connect-mongo": "~0.4.1"
   }
 }

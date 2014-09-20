@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<form action="#" id="message-form">
+<textarea id="message"></textarea>
+<input type="submit" value="send">
+</form>
+<script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+<script src="/socket.io/socket.io.js" ></script>
+
+<script>
+	var socket=io.connect("http://127.0.0.1:3000");
+	var message=document.getElementById('message');
+	$(message.form).submit(function(){
+		socket.emit('message',{text:message.value});
+		return false;
+	});
+
+	socket.on('pushmessage',function(data){
+		$('form').after('<p>'+data.text+'</p>');
+	});
+
+</script>
+
+</body>
+</html>
