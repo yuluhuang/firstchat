@@ -24,8 +24,15 @@ io.sockets.on('connection', function (socket) {
       });
     }
   });
+  // socket.on('user message', function (data) {
+  //   io.sockets.emit('user message', {
+  //     nick: socket.nickname,
+  //     message: data
+  //   });
+  // });
+
   socket.on('user message', function (data) {
-    io.sockets.emit('user message', {
+    socket.broadcast.emit('user message', {
       nick: socket.nickname,
       message: data
     });

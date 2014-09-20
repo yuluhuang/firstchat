@@ -3,6 +3,7 @@ html
   head
     title Node.js Chat Server
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/chat.css')
     script(src='/jquery.min.js')
     script(src='/socket.io/socket.io.js')
     script.
@@ -18,13 +19,16 @@ html
         var login = $('.login');
         var setNicknameForm = $('.login form');
         var showButton = $('.show');
-
+        var nick;//保存昵称
         nickname.focus(function() {
           $(this).val('');
         });
 
         nickname.val("Your nickname");
 
+        /*
+        *右边的昵称列表
+        */
         socket.on('nicknames', function (data) {
           var html = '';
           for (var i = 0; i < data.length; i++) {
@@ -32,13 +36,17 @@ html
           }
           usersList.empty().append(html);
         });
-
+        /*
+        *有新用户连接时的提示
+        */
         socket.on('announcement', function (data) {
-          messages.append('<p>' + data.message + '</p>');
+          messages.append('<div><div class="">' + data.message + '</div></div>');
         });
-
+        /*
+        *显示别人的聊天信息
+        */
         socket.on('user message', function (data) {
-          messages.append('<p><strong>' + data.nick + '</strong> ' +  data.message + '</p>');
+          messages.append('<div class="leftd"><strong class="show-left nickmargin">' + data.nick + '</strong> <div class="speech left">' +  data.message + '<div></div><br/>');
         });
 
         /*
@@ -52,6 +60,7 @@ html
             if (data) {
               console.log('Nickname set successfully');
               login.hide();
+              nick=nickname.val();
               wrapper.show();
             } else {
               setNicknameForm.prepend('<p>Sorry - that nickname is already taken.</p>');
@@ -65,6 +74,7 @@ html
         messageForm.submit(function(event) {
           event.preventDefault(); 
           socket.emit('user message', message.val());
+          messages.append('<div class="rightd"><strong class="show-right nickmargin">' + nick + '</strong> <div class="speech right">' +  message.val() + '<div></div><br/>');
           message.val('').focus();
         });
 

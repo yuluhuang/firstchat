@@ -1,8 +1,9 @@
 var express = require('express'),
   app = express(),
-  routes = require('./routes'),
+  //fs=require('fs'),
+  //routes = require('./routes'),
   server = require('http').createServer(app),
- // server = app.createServer();
+ // server = app.createServer();//error
   io = require('socket.io').listen(server),
   nicknames = [];
 
@@ -47,15 +48,15 @@ io.sockets.on('connection', function (socket) {
 
 // Configuration
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(require('stylus').middleware({ src: __dirname + '/public' }));
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+// app.configure(function(){
+//   app.set('views', __dirname + '/views');
+//   //app.set('view engine', 'jade');
+//   app.use(express.bodyParser());
+//   app.use(express.methodOverride());
+//   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
+//   app.use(app.router);
+//   app.use(express.static(__dirname + '/public'));
+// });
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -67,7 +68,10 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/', routes.index);
+//app.get('/', routes.index);
+app.get('/', function(req,res){
+    res.redirect('index.html');
+});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
