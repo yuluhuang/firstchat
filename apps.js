@@ -7,18 +7,20 @@ var express = require('express'),
   io = require('socket.io').listen(server),
   nicknames = [];
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000);//设置监听端口
 
 io.sockets.on('connection', function (socket) {
   socket.on('nickname', function (data, callback) {
     if (nicknames.indexOf(data) !== -1) {
-      callback(false);
+      callback(false);//返回客户端消息
     } else {
       callback(true);
-      nicknames.push(data);
+      nicknames.push(data);//添加到列表
       socket.nickname = data;
       console.log('Nicknames are ' + nicknames);
+      //更新客户端昵称列表
       io.sockets.emit('nicknames', nicknames);
+      //发送消息给已连接的用户（不包括此用户）
       socket.broadcast.emit('announcement', {
         nick: 'system',
         message: data + ' connected'
@@ -26,10 +28,16 @@ io.sockets.on('connection', function (socket) {
     }
   });
   socket.on('user message', function (data) {
-    io.sockets.emit('user message', {
-      nick: socket.nickname,
-      message: data
-    });
+
+    //?
+    // io.sockets.emit('user message', {
+    //   nick: socket.nickname,
+    //   message: data
+    // });
+    socket.broadcast.emit('announcement', {
+        nick: socket.nickname,
+        message: data 
+      });
   });
 
   socket.on('disconnect', function () {
@@ -48,15 +56,15 @@ io.sockets.on('connection', function (socket) {
 
 // Configuration
 
-// app.configure(function(){
-//   app.set('views', __dirname + '/views');
-//   //app.set('view engine', 'jade');
-//   app.use(express.bodyParser());
-//   app.use(express.methodOverride());
-//   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
-//   app.use(app.router);
-//   app.use(express.static(__dirname + '/public'));
-// });
+app.configure(function(){
+  app.set('views', __dirname + '/views');
+  //app.set('view engine', 'jade');
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(require('stylus').middleware({ src: __dirname + '/public' }));
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
+});
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -70,9 +78,13 @@ app.configure('production', function(){
 
 //app.get('/', routes.index);
 app.get('/', function(req,res){
-    res.redirect('index.html');
+    //res.send('index.html');
+    // res.render('index', { title: 'Express' });
+    //res.sendfile(__dirname + '/index.html');
+    res.redirect('./index.html');
 });
 
+//开始监听
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
