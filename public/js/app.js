@@ -32,14 +32,19 @@ app.controller("chatCtrl",function($scope,$rootScope){
 	$scope.send=function(){
 
 		//console.log($scope.content);
-		socket.emit('user message', $scope.content);
-		var u={};
-		u.nick=$scope.nickName;
-		u.message=$scope.content;
-		u.direction=true;
-		$scope.messageList.push(u);
+		if($scope.content){
+			socket.emit('user message', $scope.content);
+			var u={};
+			u.nick=$scope.nickName;
+			u.message=$scope.content;
+			u.direction=true;
+			$scope.messageList.push(u);
 
-		$scope.content="";
+			$scope.content="";
+		}else{
+			alert("内容不能为空");
+		}
+		
 	}
 
 	//获取昵称列表
