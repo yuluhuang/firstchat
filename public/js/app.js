@@ -6,12 +6,13 @@
 *用户发送消息 后台接收并广播
 */
 var app=angular.module("chatapp",[]);
-app.controller("chatCtrl",function($scope,$rootScope){
+app.controller("chatCtrl",function($scope,$rootScope,$interval){
 	$scope.state=true;
 	$scope.usersList=[];
 	$scope.messageList=[];
 	$scope.nickName="";
 	var socket = io.connect();
+	var aa = document.getElementById('scroll');
 	$scope.login=function(){
 		console.log($scope.nickName);
 
@@ -28,23 +29,33 @@ app.controller("chatCtrl",function($scope,$rootScope){
 			}
 		});
 	};
+	 // document.onkeydown = function () {
+  //           if (event.keyCode == 13) { //回车事件
+  //              $scope.send();
+              
+  //           }
+  //       };
 
 	$scope.send=function(){
 
 		//console.log($scope.content);
-		if($scope.content){
-			socket.emit('user message', $scope.content);
+		var _content=$scope.content;
+		if(_content){
+			socket.emit('user message', _content);
 			var u={};
 			u.nick=$scope.nickName;
-			u.message=$scope.content;
+			u.message=_content;
 			u.direction=true;
-			$scope.messageList.push(u);
-
+	    	$scope.messageList.push(u);
 			$scope.content="";
+			
+			$scope.$$postDigest(function () {
+            		$scope.scroll();
+       		 });
+
 		}else{
 			alert("内容不能为空");
 		}
-		
 	}
 
 	//获取昵称列表
@@ -62,7 +73,7 @@ app.controller("chatCtrl",function($scope,$rootScope){
     	$rootScope.$apply(function(){
 	    	$scope.messageList.push(data);
 	    });
-
+    	$scope.scroll();
     });
     /*
     *获取别人发送的信息
@@ -71,9 +82,16 @@ app.controller("chatCtrl",function($scope,$rootScope){
     	console.log(data);
     	$rootScope.$apply(function(){
 	    	$scope.messageList.push(data);
+	    	
 	    });
+		$scope.scroll();
+   });
 
-     // messages.append('<div class="leftd"><strong class="show-left nickmargin">' + data.nick + '</strong> <div class="speech left">' +  data.message + '<div></div><br/>');
-    });
+	$scope.scroll=function(){
+		
+		  aa.scrollTop= aa.scrollHeight;    //置底
+		  console.log(aa.scrollTop);
+
+	}
 
 });
