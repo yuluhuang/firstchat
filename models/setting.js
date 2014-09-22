@@ -1,5 +1,6 @@
 module.exports = {
   cookieSecret: 'nodechat',
-  db: 'chat',
-  host: 'localhost',
+  db: '04367857m_mongo_23fi32ue',
+ // host: 'localhost',
+ host: '10.0.31.20',
 };
