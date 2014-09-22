@@ -1,5 +1,5 @@
 var Chat=require('./models/chat.js');
-var settings = require('./models/setting.js');
+var settings = require('./models/setting');
 var express = require('express'),
   app = express(),
   //fs=require('fs'),
