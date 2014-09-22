@@ -1,4 +1,6 @@
-var mongodb=require('./db');
+///var mongodb=require('./db');
+mongodb = require('mongodb').Db
+var settings = require('./setting');
 
 function Chat(chat){
 	this.name = chat.name;
@@ -13,8 +15,8 @@ Chat.prototype.save=function save(callback){
 		name:this.name,
 		content:this.content,
 	};
-
-	mongodb.open(function(err,db){
+///
+	mongodb.connect(settings.url,function(err,db){
 		if(err){
 			return callback(err);
 		}
@@ -25,7 +27,9 @@ Chat.prototype.save=function save(callback){
 			}
 			collection.ensureIndex('name');
 			collection.insert(chat,{safe:true},function(err,user){
-				mongodb.close();
+				///mongodb.close();
+				 
+				 db.close();
 				callback(err,chat);
 			});
 		});
@@ -34,7 +38,8 @@ Chat.prototype.save=function save(callback){
 
 //直接调用
 Chat.getAll=function get(callback){
-		mongodb.open(function(err,db){
+	///
+		mongodb.connect(settings.url,function(err,db){
 		if(err){
 			return callback(err);
 
@@ -42,7 +47,9 @@ Chat.getAll=function get(callback){
 		//获取chats集合
 		db.collection('chats',function(err,collection){
 			if(err){
-				 mongodb.close();
+				///mongodb.close();
+				 
+				 db.close();
 				return callback(err);
 			}
 			// 查找 user 屬性爲 username 的文檔，如果 username 是 null 則匹配全部
@@ -52,7 +59,9 @@ Chat.getAll=function get(callback){
 		    // }
 		    //console.log(collection.find({}));
 			collection.find({}).toArray(function(err, docs){
-				mongodb.close();
+				///mongodb.close();
+				 
+				 db.close();
 		        if (err) {
 		          callback(err, null);
 		        }
