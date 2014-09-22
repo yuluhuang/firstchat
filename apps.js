@@ -1,4 +1,5 @@
 var Chat=require('./models/chat.js');
+var settings = require('./setting');
 var express = require('express'),
   app = express(),
   //fs=require('fs'),
@@ -98,6 +99,12 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+
+  app.use(express.session({
+    secret: settings.cookieSecret,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+    url: settings.db
+  }));
 });
 
 app.configure('development', function(){
