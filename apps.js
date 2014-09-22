@@ -1,3 +1,4 @@
+var Chat=require('./models/chat.js');
 var express = require('express'),
   app = express(),
   //fs=require('fs'),
@@ -29,11 +30,28 @@ io.sockets.on('connection', function (socket) {
   });
   socket.on('user message', function (data) {
 
-    //?
+    //?是不是代表发给所以客户端（已连接和正在连接）
     // io.sockets.emit('user message', {
     //   nick: socket.nickname,
     //   message: data
     // });
+    //等同与
+    //socket.emit('pushmessage',data);
+    //socket.broadcast.emit('pushmessage',data);
+
+
+    //new 一个 Chat
+    var newChat=new Chat({
+      name:"11",
+      content:data,
+    });
+    newChat.save(function(err){
+      if(err){
+        //
+      }else{
+        console.log("success");
+      }
+    });
     socket.broadcast.emit('announcement', {
         nick: socket.nickname,
         message: data 
@@ -43,7 +61,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
     if (!socket.nickname) { return; }
     if (nicknames.indexOf(socket.nickname) > -1) {
-      nicknames.splice(nicknames.indexOf(socket.nickname), 1);
+       nicknames.splice(nicknames.indexOf(socket.nickname), 1);
     }
     console.log('Nicknames are ' + nicknames);
     socket.broadcast.emit('announcement', {
@@ -52,6 +70,22 @@ io.sockets.on('connection', function (socket) {
     });
     io.sockets.emit('nicknames', nicknames);
   });
+
+  //获取历史记录
+  socket.on('getinfo',function(data){
+    console.log('Nicknames are ');
+    //直接调用
+    Chat.getAll(function(err,chats){
+      if(err){
+        //
+      }else{
+        //send to 客户端
+        io.sockets.emit('chats', chats);
+      }
+    });
+  });
+
+
 });
 
 // Configuration

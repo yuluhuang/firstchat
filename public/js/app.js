@@ -43,10 +43,11 @@ app.controller("chatCtrl",function($scope,$rootScope,$interval){
 		if(_content){
 			socket.emit('user message', _content);
 			var u={};
-			u.nick=$scope.nickName;
-			u.message=_content;
+			u.name=$scope.nickName;
+			u.content=_content;
 			u.direction=true;
 	    	$scope.messageList.push(u);
+	    	console.log($scope.messageList);
 			$scope.content="";
 			
 			$scope.$$postDigest(function () {
@@ -82,16 +83,34 @@ app.controller("chatCtrl",function($scope,$rootScope,$interval){
     	console.log(data);
     	$rootScope.$apply(function(){
 	    	$scope.messageList.push(data);
+
 	    	
 	    });
 		$scope.scroll();
    });
+
+    //客户端接收 历史记录
+    socket.on('chats', function (data) {
+    	console.log(data);
+    	$rootScope.$apply(function(){
+	    	$scope.messageList=data;
+
+	    	
+	    });
+    	$scope.scroll();
+    });
 
 	$scope.scroll=function(){
 		
 		  aa.scrollTop= aa.scrollHeight;    //置底
 		  console.log(aa.scrollTop);
 
+	}
+	//获取历史记录
+	$scope.showinfos=function(){
+		console.log("11");
+		socket.emit('getinfo', {});
+		
 	}
 
 });
