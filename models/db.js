@@ -3,5 +3,4 @@ var Db = require('mongodb').Db;
 var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
 
-module.exports = new Db(settings.db, new Server(settings.host, Connection.DEFAULT_PORT,
- {auto_reconnect: true, native_parser: true}),{});
+module.exports = new Db(settings.db, new Server(settings.host, Connection.DEFAULT_PORT,{});
