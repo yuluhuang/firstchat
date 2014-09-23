@@ -4,12 +4,8 @@ var mongodb = require('mongodb');
 var mongoUri =process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||
 	'mongodb://localhost/04367857m_mongo_23fi32ue'||
     'mongodb://fc19zAhk:ng08AuXlIWe7@localhost/04367857m_mongo_23fi32ue'||
-    'mongodb://fc19zAhk:ng08AuXlIWe7@localhost:27017/04367857m_mongo_23fi32ue'||
-    'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20/04367857m_mongo_23fi32ue'||
-	'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20:27017/04367857m_mongo_23fi32ue'||
-    'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.21/04367857m_mongo_23fi32ue'||
-	'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.21:27017/04367857m_mongo_23fi32ue'||
-	'mongodb://10.0.31.21:27017/04367857m_mongo_23fi32ue';
+    'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20/04367857m_mongo_23fi32ue,fc19zAhk:ng08AuXlIWe7@10.0.31.21/04367857m_mongo_23fi32ue'||
+	'mongodb://10.0.31.21/04367857m_mongo_23fi32ue,10.0.31.20/04367857m_mongo_23fi32ue';
 //var settings = require('./setting');
 
 function Chat(chat){
