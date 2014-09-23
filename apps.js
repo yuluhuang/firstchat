@@ -1,5 +1,5 @@
 var Chat=require('./models/chat.js');
-var settings = require('./models/setting.js');
+//var settings = require('./models/setting.js');
 var express = require('express'),
   app = express(),
   //fs=require('fs'),
@@ -101,11 +101,11 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 
-  app.use(express.session({
-    secret: settings.cookieSecret,
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-    url: settings.url
-  }));
+  // app.use(express.session({
+  //   secret: settings.cookieSecret,
+  //   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  //   url: settings.url
+  // }));
 });
 
 app.configure('development', function(){

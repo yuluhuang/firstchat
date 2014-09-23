@@ -1,6 +1,9 @@
-var mongodb=require('./db');
-///mongodb = require('mongodb').Db
-var settings = require('./setting');
+//var mongodb=require('./db');
+var mongo = require('mongodb');
+
+var mongoUri = process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||
+'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20:27017/04367857m_mongo_23fi32ue';
+//var settings = require('./setting');
 
 function Chat(chat){
 	this.name = chat.name;
@@ -16,7 +19,7 @@ Chat.prototype.save=function save(callback){
 		content:this.content,
 	};
 ///
-	mongodb.open(function(err,db){
+	mongo.Db.connect(mongoUri,function(err,db){
 		if(err){
 			return callback(err);
 		}
@@ -39,7 +42,7 @@ Chat.prototype.save=function save(callback){
 //直接调用
 Chat.getAll=function get(callback){
 	///
-		mongodb.open(function(err,db){
+		mongo.Db.connect(mongoUri,function(err,db){
 		if(err){
 			return callback(err);
 
