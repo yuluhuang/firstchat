@@ -1,8 +1,9 @@
 //var mongodb=require('./db');
-var mongo = require('mongodb');
+var mongodb = require('mongodb');
 
-var mongoUri = process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||
-'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20:27017/04367857m_mongo_23fi32ue';
+var mongoUri =process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||'mongodb://localhost/04367857m_mongo_23fi32ue'||
+'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20/04367857m_mongo_23fi32ue';
 //var settings = require('./setting');
 
 function Chat(chat){
@@ -19,18 +20,18 @@ Chat.prototype.save=function save(callback){
 		content:this.content,
 	};
 ///
-	mongo.Db.connect(mongoUri,function(err,db){
+	mongodb.Db.connect(mongoUri,function(err,db){
 		if(err){
 			return callback(err);
 		}
 		db.collection('chats',function(err,collection){
 			if(err){
-				 mongodb.close();
+				 db.close();
 				return callback(err);
 			}
 			collection.ensureIndex('name');
 			collection.insert(chat,{safe:true},function(err,user){
-				mongodb.close();
+				db.close();
 				 
 				 ///db.close();
 				callback(err,chat);
@@ -42,7 +43,7 @@ Chat.prototype.save=function save(callback){
 //直接调用
 Chat.getAll=function get(callback){
 	///
-		mongo.Db.connect(mongoUri,function(err,db){
+		mongodb.Db.connect(mongoUri,function(err,db){
 		if(err){
 			return callback(err);
 
@@ -50,7 +51,7 @@ Chat.getAll=function get(callback){
 		//获取chats集合
 		db.collection('chats',function(err,collection){
 			if(err){
-				mongodb.close();
+				db.close();
 				 
 				 ///db.close();
 				return callback(err);
@@ -62,7 +63,7 @@ Chat.getAll=function get(callback){
 		    // }
 		    //console.log(collection.find({}));
 			collection.find({}).toArray(function(err, docs){
-				mongodb.close();
+				db.close();
 				 
 				/// db.close();
 		        if (err) {
