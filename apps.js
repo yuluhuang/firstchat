@@ -49,9 +49,11 @@ io.sockets.on('connection', function (socket) {
     });
     newChat.save(function(err){
       if(err){
+       
         //
       }else{
         console.log("success");
+       
       }
     });
     socket.broadcast.emit('user message', {
