@@ -39,14 +39,13 @@ app.controller("chatCtrl",function($scope,$rootScope,$interval){
 	$scope.send=function(){
 
 		//console.log($scope.content);
-		var _content=$scope.content;
-		if(_content){
-			socket.emit('user message', _content);
-			var u={};
-			u.name=$scope.nickName;
-			u.content=_content;
-			u.direction=true;
-	    	$scope.messageList.push(u);
+		var user={};
+		user.content=$scope.content;
+		user.name=$scope.nickName;
+		if(user.content){
+			socket.emit('user message', user);
+			user.direction=true;
+	    	$scope.messageList.push(user);
 	    	console.log($scope.messageList);
 			$scope.content="";
 			
@@ -69,13 +68,13 @@ app.controller("chatCtrl",function($scope,$rootScope,$interval){
     /*
     *有新用户连接时的提示
     */
-    socket.on('announcement', function (data) {
-    	console.log(data);
-    	$rootScope.$apply(function(){
-	    	$scope.messageList.push(data);
-	    });
-    	$scope.scroll();
-    });
+    // socket.on('announcement', function (data) {
+    // 	console.log(data);
+    // 	$rootScope.$apply(function(){
+	   //  	$scope.messageList.push(data);
+	   //  });
+    // 	$scope.scroll();
+    // });
     /*
     *获取别人发送的信息
     */

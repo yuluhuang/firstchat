@@ -18,17 +18,18 @@ io.sockets.on('connection', function (socket) {
     } else {
       callback(true);
       nicknames.push(data);//添加到列表
-      socket.nickname = data;
+      socket.nickname = data;//变量
       console.log('Nicknames are ' + nicknames);
       //更新客户端昵称列表
       io.sockets.emit('nicknames', nicknames);
       //发送消息给已连接的用户（不包括此用户）
-      socket.broadcast.emit('announcement', {
-        nick: 'system',
-        message: data + ' connected'
+      socket.broadcast.emit('user message', {
+        name: 'system',
+        content: data + ' 连接'
       });
     }
   });
+
   socket.on('user message', function (data) {
 
     //?是不是代表发给所以客户端（已连接和正在连接）
@@ -43,8 +44,8 @@ io.sockets.on('connection', function (socket) {
 
     //new 一个 Chat
     var newChat=new Chat({
-      name:"11",
-      content:data,
+      name:data.name,
+      content:data.content,
     });
     newChat.save(function(err){
       if(err){
@@ -53,9 +54,9 @@ io.sockets.on('connection', function (socket) {
         console.log("success");
       }
     });
-    socket.broadcast.emit('announcement', {
-        nick: socket.nickname,
-        message: data 
+    socket.broadcast.emit('user message', {
+        name: data.name,
+        content: data.content 
       });
   });
 
@@ -65,9 +66,9 @@ io.sockets.on('connection', function (socket) {
        nicknames.splice(nicknames.indexOf(socket.nickname), 1);
     }
     console.log('Nicknames are ' + nicknames);
-    socket.broadcast.emit('announcement', {
-      nick: 'system',
-      message: socket.nickname + ' disconnected'
+    socket.broadcast.emit('user message', {
+      name: 'system',
+      content: socket.nickname + ' 离开'
     });
     io.sockets.emit('nicknames', nicknames);
   });
@@ -80,7 +81,7 @@ io.sockets.on('connection', function (socket) {
       if(err){
         //
       }else{
-        //send to 客户端
+        //send to 所以客户端 待处理
         io.sockets.emit('chats', chats);
       }
     });
