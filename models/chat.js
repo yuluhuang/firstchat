@@ -8,7 +8,8 @@ var mongoUri =process.env.MONGOLAB_URI ||
     'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20/04367857m_mongo_23fi32ue?safe=true'||
 'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.20:27017/04367857m_mongo_23fi32ue?safe=true'||
     'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.21/04367857m_mongo_23fi32ue?safe=true'||
-'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.21:27017/04367857m_mongo_23fi32ue?safe=true';
+'mongodb://fc19zAhk:ng08AuXlIWe7@10.0.31.21:27017/04367857m_mongo_23fi32ue?safe=true'||
+'mongodb://10.0.31.21:27017/04367857m_mongo_23fi32ue?safe=true';
 //var settings = require('./setting');
 
 function Chat(chat){
