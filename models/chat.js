@@ -1,17 +1,17 @@
 //var mongodb=require('./db');
 var mongodb = require('mongodb');
 
-// var mongoUri ='mongodb://admin:admin@ds039850.mongolab.com:39850/nodeapp'||
-// 	process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||
-// 	'mongodb://localhost:27017/04367857m_mongo_0qw7b8g8'||
-//     'mongodb://dM2173QY:W73jg5JkXo1f@localhost:27017/04367857m_mongo_0qw7b8g8'||
-//     'mongodb://dM2173QY:W73jg5JkXo1f@10.0.31.57:27017/04367857m_mongo_0qw7b8g8'||
-//     'mongodb://dM2173QY:W73jg5JkXo1f@10.0.31.58:27017/04367857m_mongo_0qw7b8g8'||
-// 	'mongodb://10.0.31.57:27017/04367857m_mongo_0qw7b8g8'||
-// 	'mongodb://10.0.31.58:27017/04367857m_mongo_0qw7b8g8';
+var mongoUri ='mongodb://admin:admin@ds039850.mongolab.com:39850/nodeapp'||
+	process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||
+	'mongodb://localhost:27017/04367857m_mongo_0qw7b8g8'||
+    'mongodb://dM2173QY:W73jg5JkXo1f@localhost:27017/04367857m_mongo_0qw7b8g8'||
+    'mongodb://dM2173QY:W73jg5JkXo1f@10.0.31.57:27017/04367857m_mongo_0qw7b8g8'||
+    'mongodb://dM2173QY:W73jg5JkXo1f@10.0.31.58:27017/04367857m_mongo_0qw7b8g8'||
+	'mongodb://10.0.31.57:27017/04367857m_mongo_0qw7b8g8'||
+	'mongodb://10.0.31.58:27017/04367857m_mongo_0qw7b8g8';
 //var settings = require('./setting');
 
-var mongoUri ='mongodb://admin:admin@ds039850.mongolab.com:39850/nodeapp';
+//var mongoUri ='mongodb://admin:admin@ds039850.mongolab.com:39850/nodeapp';
 
 function Chat(chat){
 	this.name = chat.name;
