@@ -47,7 +47,7 @@ Chat.prototype.save=function save(callback){
 					 mongodb.close();
 					return callback(err);
 				}
-				collection.ensureIndex('name');
+				//collection.ensureIndex('name');
 				collection.insert(chat,{safe:true},function(err,user){
 					mongodb.close();
 					 
